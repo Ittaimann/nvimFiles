@@ -10,9 +10,12 @@ call minpac#add('embear/vim-localvimrc')
 call minpac#add('tpope/vim-dispatch')
 call minpac#add('bfrg/vim-cpp-modern')
 call minpac#add('neoclide/coc.nvim')
+
 call minpac#add('tpope/vim-fugitive')
 call minpac#add('tpope/vim-obsession')
-call minpac#add('puremourning/vimspector')
+call minpac#add('ziglang/zig.vim')
+call minpac#add('nvim-lua/plenary.nvim')
+call minpac#add('nvim-telescope/telescope.nvim')
 command! PackUpdate call minpac#update()
 command! PackClean call minpac#clean()
 
@@ -29,15 +32,27 @@ set shellquote= shellpipe=\| shellxquote=
 set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 set shellredir=\|\ Out-File\ -Encoding\ UTF8
 
+"---------------------- lsp -----------------------------------
+
 "---------------------- misc settings -------------------------
 let g:localvimrc_persistent=2
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 set encoding=utf-8
 set fileencoding=utf8
 let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 
 "-------------------- custom commands ----------------------------
-nnoremap <C-p> :<C-u>FZF<CR>
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Using Lua functions
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
 nnoremap <A-o> :w <bar> :CocCommand clangd.switchSourceHeader<CR>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
