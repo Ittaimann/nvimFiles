@@ -28,49 +28,51 @@ set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 set shellredir=\|\ Out-File\ -Encoding\ UTF8
 
 
-nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
-nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
-nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
-nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
-nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-
-map <C-K> :!clang-format -i -style=file % <cr>
-nmap tn :tabnext <cr>
-nmap tN :tabnew <cr>
-nmap tc :tabclose <cr>
-imap jj <ESC>
+"nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
+"nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
+"nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
+"nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
+"nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
+"nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+"nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+"nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+"nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+"
+"map <C-K> :!clang-format -i -style=file % <cr>
+"nmap tn :tabnext <cr>
+"nmap tN :tabnew <cr>
+"nmap tc :tabclose <cr>
+"imap jj <ESC>
 
 ]])
 
 -------------------- custom commands ----------------------------
 local opts = { noremap=true, silent=true }
 local function set_keymap_norm(...) vim.api.nvim_buf_set_keymap(0,"n", ...) end
-set_keymap_norm("<leader>ff", "<cmd>Telescope find_files<cr>",opts )
-set_keymap_norm("<leader>fg", "<cmd>Telescope live_grep<cr>", opts)
-set_keymap_norm("<leader>fb", "<cmd>Telescope buffers<cr>", opts)
-set_keymap_norm("<leader>fh", "<cmd>Telescope help_tags<cr>", opts)
 
---
---nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
---nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
---nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
---nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
---nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
---nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
---nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
---nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
---nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
---
---map <C-K> :!clang-format -i -style=file % <cr>
---nmap tn :tabnext <cr>
---nmap tN :tabnew <cr>
---nmap tc :tabclose <cr>
---imap jj <ESC>
---
+-- telescope mappings
+set_keymap_norm("<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>",opts )
+set_keymap_norm("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
+set_keymap_norm("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
+set_keymap_norm("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", opts)
+
+-- dap mappings
+set_keymap_norm("<F5>", "<cmd>lua require'dap'.continue()<CR>", opts)
+set_keymap_norm("<F10>", "<cmd>lua require'dap'.step_over()<CR>", opts)
+set_keymap_norm("<F11>", "<cmd>lua require'dap'.step_into()<CR>", opts)
+set_keymap_norm("<F12>", "<cmd>lua require'dap'.step_out()<CR>", opts)
+set_keymap_norm("<leader>b", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
+set_keymap_norm("<leader>B", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
+set_keymap_norm("<leader>lp", "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
+set_keymap_norm("<leader>dr", "<cmd>lua require'dap'.repl.open()CR>", opts)
+set_keymap_norm("<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", opts)
+
+-- general mappings
+set_keymap_norm("tn","<cmd> tabnext <cr>",opts)
+set_keymap_norm("tN","<cmd> tabnew<cr>",opts)
+set_keymap_norm("tc","<cmd> tabclose <cr>",opts)
+vim.api.nvim_buf_set_keymap(0,'i',"jj","<ESC>",{ noremap = true})
+
 ---------------------- lsp -----------------------------------
 local nvim_lsp = require('lspconfig')
 
