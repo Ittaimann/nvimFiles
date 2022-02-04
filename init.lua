@@ -5,21 +5,28 @@ call plug#begin()
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'saadparwaiz1/cmp_luasnip'
-Plug 'L3MON4D3/LuaSnip'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'mfussenegger/nvim-dap'
 Plug 'ziglang/zig.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'junegunn/seoul256.vim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'rcarriga/nvim-dap-ui'
+"Plug 'akinsho/bufferline.nvim'
+Plug 'saadparwaiz1/cmp_luasnip'
+"Plug 'ahmedkhalf/project.nvim'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'tpope/vim-dispatch'
+Plug 'OmniSharp/omnisharp-vim'
 call plug#end()
 
 "---------------------- theme ---------------------------------
 set background=dark
-let g:seoul256_background='#ffffff'
+"let g:seoul256_background='#ffffff'
 colo seoul256
-autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE                                                           
+"autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE                                                           
 
 "---------------------- Shell ---------------------------------
 let &shell = has('win32') ? 'powershell' : 'pwsh'
@@ -27,51 +34,18 @@ set shellquote= shellpipe=\| shellxquote=
 set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 set shellredir=\|\ Out-File\ -Encoding\ UTF8
 
+set makeprg=./build.bat
 
-"nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
-"nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
-"nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
-"nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
-"nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
-"nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-"nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-"nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-"nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-"
-"map <C-K> :!clang-format -i -style=file % <cr>
-"nmap tn :tabnext <cr>
-"nmap tN :tabnew <cr>
-"nmap tc :tabclose <cr>
-"imap jj <ESC>
+"command! Make silent lua require'asyn_make'.make()
 
-]])
+augroup Markdown
+    autocmd!
+    autocmd FileType markdown set wrap
+augroup END
+]]
+)
 
--------------------- custom commands ----------------------------
-local opts = { noremap=true, silent=true }
-local function set_keymap_norm(...) vim.api.nvim_buf_set_keymap(0,"n", ...) end
 
--- telescope mappings
-set_keymap_norm("<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>",opts )
-set_keymap_norm("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
-set_keymap_norm("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
-set_keymap_norm("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", opts)
-
--- dap mappings
-set_keymap_norm("<F5>", "<cmd>lua require'dap'.continue()<CR>", opts)
-set_keymap_norm("<F10>", "<cmd>lua require'dap'.step_over()<CR>", opts)
-set_keymap_norm("<F11>", "<cmd>lua require'dap'.step_into()<CR>", opts)
-set_keymap_norm("<F12>", "<cmd>lua require'dap'.step_out()<CR>", opts)
-set_keymap_norm("<leader>b", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
-set_keymap_norm("<leader>B", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
-set_keymap_norm("<leader>lp", "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
-set_keymap_norm("<leader>dr", "<cmd>lua require'dap'.repl.open()CR>", opts)
-set_keymap_norm("<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", opts)
-
--- general mappings
-set_keymap_norm("tn","<cmd> tabnext <cr>",opts)
-set_keymap_norm("tN","<cmd> tabnew<cr>",opts)
-set_keymap_norm("tc","<cmd> tabclose <cr>",opts)
-vim.api.nvim_buf_set_keymap(0,'i',"jj","<ESC>",{ noremap = true})
 
 ---------------------- lsp -----------------------------------
 local nvim_lsp = require('lspconfig')
@@ -113,7 +87,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "clangd", "zls"}
+local servers = { "clangd", "zls","omnisharp"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -123,6 +97,24 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+local omnisharp_bin = "C:\\Program Files\\omni\\OmniSharp.exe"
+-- on Windows
+--
+-- -- local omnisharp_bin = "/path/to/omnisharp/OmniSharp.exe"
+--
+ require'lspconfig'.omnisharp.setup{
+
+     cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+ }
+--nvim_lsp["omnisharp"].setup
+--{
+--    on_attach = on_attach,
+--    capabilities = capabilities,
+--    flags = {},
+--    cmd = "omnisharp"
+--
+--}
 
 local cmp = require 'cmp'
 cmp.setup {
@@ -182,6 +174,7 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
+-------------------- Debugger ----------------------------
 local dap = require('dap')
 dap.adapters.codelldb = function(callback, config)
 -- specify in your configuration host = your_host , port = your_port
@@ -251,7 +244,77 @@ dap.configurations.cpp = {
   },
 }
 require('dap').set_log_level('DEBUG')
+require("dapui").setup()
+-------------------- Lua Line ----------------------------
 
+require('lualine').setup{
+    options = {
+        icons_enabled = true,
+        theme = 'auto',
+        component_separators = { left = '', right = ''},
+        section_separators = { left = '', right = ''},
+        disabled_filetypes = {},
+        always_divide_middle = true,
+        },
+        sections = {
+            lualine_a = {'mode'},
+            lualine_b = {'branch', 'diff', 'diagnostics'},
+            lualine_c = {'filename'},
+            lualine_x = {'encoding', 'fileformat', 'filetype'},
+            lualine_y = {'progress'},
+            lualine_z = {'location'}
+        },
+        inactive_sections = {
+            lualine_a = {},
+            lualine_b = {},
+            lualine_c = {'filename'},
+            lualine_x = {'location'},
+            lualine_y = {},
+            lualine_z = {}
+        },
+        tabline = {},
+        extensions = {}
+}
+
+-------------------- projects ----------------------------
+--require('project_nvim').setup {}
+--require('telescope').setup{extensions = {
+--'projects'
+--}}
+--require('telescope').load_extension('projects')
+-------------------- Buffer Line ----------------------------
+--vim.opt.termguicolors = true
+--require("bufferline").setup{}
+------------------- spotify ----------------------------
+-- myabe one day crying emoji -- 
+-------------------- custom commands ----------------------------
+local opts = { noremap=true }
+local function set_keymap_norm(...) vim.api.nvim_buf_set_keymap(0,"n", ...) end
+
+-- telescope mappings
+vim.api.nvim_set_keymap("n","<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>",opts )
+vim.api.nvim_set_keymap("n","<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
+vim.api.nvim_set_keymap("n","<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
+vim.api.nvim_set_keymap("n","<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", opts)
+
+-- dap mappings
+vim.api.nvim_set_keymap("n","<F5>", "<cmd>lua require'dap'.continue()<CR>", opts)
+vim.api.nvim_set_keymap("n","<F10>", "<cmd>lua require'dap'.step_over()<CR>", opts)
+vim.api.nvim_set_keymap("n","<F11>", "<cmd>lua require'dap'.step_into()<CR>", opts)
+vim.api.nvim_set_keymap("n","<F12>", "<cmd>lua require'dap'.step_out()<CR>", opts)
+vim.api.nvim_set_keymap("n","<leader>b", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
+vim.api.nvim_set_keymap("n","<leader>B", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
+vim.api.nvim_set_keymap("n","<leader>lp", "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
+vim.api.nvim_set_keymap("n","<leader>dr", "<cmd>lua require'dap'.repl.open()CR>", opts)
+vim.api.nvim_set_keymap("n","<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", opts)
+
+-- general mappings
+vim.api.nvim_set_keymap("n","tn","<cmd> tabnext <cr>",opts)
+vim.api.nvim_set_keymap("n","tN","<cmd> tabnew<cr>",opts)
+vim.api.nvim_set_keymap("n","tc","<cmd> tabclose <cr>",opts)
+vim.api.nvim_set_keymap('i',"jj","<ESC>",{})
+-- idea about building something from here
+vim.api.nvim_set_keymap('n',"<leader>b","<cmd>!build.bat<cr>",{})
 -------------------- custom format ------------------------------
 vim.o.encoding = "utf-8"
 vim.o.fileencoding = "utf-8"
