@@ -3,6 +3,7 @@ vim.cmd([[
 "------------------------ Packages --------------------------
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
+Plug 'ms-jpq/coq_nvim'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'nvim-treesitter/nvim-treesitter'
@@ -14,12 +15,10 @@ Plug 'junegunn/seoul256.vim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'rcarriga/nvim-dap-ui'
-"Plug 'akinsho/bufferline.nvim'
+Plug 'akinsho/bufferline.nvim'
 Plug 'saadparwaiz1/cmp_luasnip'
-"Plug 'ahmedkhalf/project.nvim'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'tpope/vim-dispatch'
-Plug 'OmniSharp/omnisharp-vim'
 call plug#end()
 
 "---------------------- theme ---------------------------------
@@ -36,8 +35,6 @@ set shellredir=\|\ Out-File\ -Encoding\ UTF8
 
 set makeprg=./build.bat
 
-"command! Make silent lua require'asyn_make'.make()
-
 augroup Markdown
     autocmd!
     autocmd FileType markdown set wrap
@@ -49,6 +46,7 @@ augroup END
 
 ---------------------- lsp -----------------------------------
 local nvim_lsp = require('lspconfig')
+local coq = require('coq')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -87,34 +85,19 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "clangd", "zls","omnisharp"}
+local servers = { "clangd", "zls"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    }
+      --coq.lsp_ensure_capabilities{
+      on_attach = on_attach,
+      capabilities = capabilities,
+      flags = {
+        debounce_text_changes = 150,
+      }
+   -- }
   }
 end
 
-local omnisharp_bin = "C:\\Program Files\\omni\\OmniSharp.exe"
--- on Windows
---
--- -- local omnisharp_bin = "/path/to/omnisharp/OmniSharp.exe"
---
- require'lspconfig'.omnisharp.setup{
-
-     cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
- }
---nvim_lsp["omnisharp"].setup
---{
---    on_attach = on_attach,
---    capabilities = capabilities,
---    flags = {},
---    cmd = "omnisharp"
---
---}
 
 local cmp = require 'cmp'
 cmp.setup {
@@ -124,8 +107,6 @@ cmp.setup {
     end,
   },
   mapping = {
-    --['<C-p>'] = cmp.mapping.select_prev_item(),
-    --['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
@@ -160,18 +141,11 @@ cmp.setup {
 }
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
-  ignore_install = { "javascript" }, -- List of parsers to ignore installing
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { "c", "rust" },  -- list of language that will be disabled
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
+--    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
+    highlight = {
+        enable = true
+    }
 }
 
 -------------------- Debugger ----------------------------
@@ -313,6 +287,7 @@ vim.api.nvim_set_keymap("n","tn","<cmd> tabnext <cr>",opts)
 vim.api.nvim_set_keymap("n","tN","<cmd> tabnew<cr>",opts)
 vim.api.nvim_set_keymap("n","tc","<cmd> tabclose <cr>",opts)
 vim.api.nvim_set_keymap('i',"jj","<ESC>",{})
+vim.api.nvim_set_keymap('n',"FF","yiw/<C-r>0",{})
 -- idea about building something from here
 vim.api.nvim_set_keymap('n',"<leader>b","<cmd>!build.bat<cr>",{})
 -------------------- custom format ------------------------------
@@ -325,3 +300,6 @@ vim.o.shiftwidth=4
 vim.o.tabstop=4
 vim.o.expandtab = true
 vim.o.wrap = false 
+
+
+
