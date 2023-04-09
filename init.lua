@@ -28,12 +28,12 @@ colo seoul256
 "autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE                                                           
 
 "---------------------- Shell ---------------------------------
-let &shell = has('win32') ? 'powershell' : 'pwsh'
-set shellquote= shellpipe=\| shellxquote=
-set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
-set shellredir=\|\ Out-File\ -Encoding\ UTF8
-
-set makeprg=./build.bat
+"let &shell = has('win32') ? 'powershell' : 'pwsh'
+"set shellquote= shellpipe=\| shellxquote=
+"set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+"set shellredir=\|\ Out-File\ -Encoding\ UTF8
+"
+"set makeprg=./build.bat
 
 augroup Markdown
     autocmd!
@@ -184,8 +184,13 @@ vim.api.nvim_set_keymap("n","tN","<cmd> tabnew<cr>",opts)
 vim.api.nvim_set_keymap("n","tc","<cmd> tabclose <cr>",opts)
 vim.api.nvim_set_keymap('i',"jj","<ESC>",{})
 vim.api.nvim_set_keymap('n',"FF","yiw/<C-r>0",{})
+
+
 -- idea about building something from here
-vim.api.nvim_set_keymap('n',"<leader>b","<cmd>!build.bat<cr>",{})
+vim.api.nvim_set_keymap('n',"<leader>b","<cmd>!build.py<cr>",{})
+
+
+
 -------------------- custom format ------------------------------
 vim.o.encoding = "utf-8"
 vim.o.fileencoding = "utf-8"
