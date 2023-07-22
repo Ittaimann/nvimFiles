@@ -1,5 +1,6 @@
 -- My neo vim conifg. Some pieces are still  in vim script but thats fine I guess
 vim.cmd([[
+
 "------------------------ Packages --------------------------
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
