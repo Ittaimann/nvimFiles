@@ -45,6 +45,7 @@ augroup END
 
 
 require('lsp')
+require('format')
 -------------------- Debugger ----------------------------
 local dap = require('dap')
 dap.adapters.codelldb = function(callback, config)
@@ -173,24 +174,27 @@ vim.api.nvim_set_keymap("n","<F5>", "<cmd>lua require'dap'.continue()<CR>", opts
 vim.api.nvim_set_keymap("n","<F10>", "<cmd>lua require'dap'.step_over()<CR>", opts)
 vim.api.nvim_set_keymap("n","<F11>", "<cmd>lua require'dap'.step_into()<CR>", opts)
 vim.api.nvim_set_keymap("n","<F12>", "<cmd>lua require'dap'.step_out()<CR>", opts)
-vim.api.nvim_set_keymap("n","<leader>b", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
-vim.api.nvim_set_keymap("n","<leader>B", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
+vim.api.nvim_set_keymap("n","<leader>tb", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
+vim.api.nvim_set_keymap("n","<leader>bp", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
 vim.api.nvim_set_keymap("n","<leader>lp", "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
 vim.api.nvim_set_keymap("n","<leader>dr", "<cmd>lua require'dap'.repl.open()CR>", opts)
 vim.api.nvim_set_keymap("n","<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", opts)
 
 -- general mappings
-vim.api.nvim_set_keymap("n","tn","<cmd> tabnext <cr>",opts)
-vim.api.nvim_set_keymap("n","tN","<cmd> tabnew<cr>",opts)
+vim.api.nvim_set_keymap("n","tn","<cmd> tabnext <cr>",opts) vim.api.nvim_set_keymap("n","tN","<cmd> tabnew<cr>",opts)
 vim.api.nvim_set_keymap("n","tc","<cmd> tabclose <cr>",opts)
 vim.api.nvim_set_keymap('i',"jj","<ESC>",{})
 vim.api.nvim_set_keymap('n',"FF","yiw/<C-r>0",{})
+vim.api.nvim_set_keymap('n',"<leader>br","build",{})
 
-
--- idea about building something from here
-vim.api.nvim_set_keymap('n',"<leader>b","<cmd>!build.py<cr>",{})
-
-
+-------------------- autocmd ------------------------------
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { '*.zig' },
+    callback = function()
+        vim.o.makeprg = "zig/ build"
+    end,
+    group = generalSettingsGroup,
+})
 
 -------------------- custom format ------------------------------
 vim.o.encoding = "utf-8"
@@ -199,9 +203,7 @@ vim.o.copyindent = true
 vim.o.preserveindent = true
 vim.o.softtabstop=0
 vim.o.shiftwidth=4
-vim.o.tabstop=4
-vim.o.expandtab = true
+vim.o.expandtab = false
 vim.o.wrap = false 
-
-
-
+vim.o.listchars = "tab:>>,space:·"
+vim.o.list = true
