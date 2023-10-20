@@ -207,3 +207,4 @@ vim.o.expandtab = false
 vim.o.wrap = false 
 vim.o.listchars = "tab:>>,space:·"
 vim.o.list = true
+vim.o.relativenumber = true
