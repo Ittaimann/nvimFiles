@@ -23,9 +23,9 @@ call plug#end()
 
 "---------------------- theme ---------------------------------
 set background=dark
-"let g:seoul256_background='#ffffff'
+let g:seoul256_background='#00ffffff'
 colo seoul256
-"autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE                                                           
+autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
 
 "---------------------- Shell ---------------------------------
 "let &shell = has('win32') ? 'powershell' : 'pwsh'
