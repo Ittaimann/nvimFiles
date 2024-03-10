@@ -1,73 +1,27 @@
 -------------------- Debugger ----------------------------
 local dap = require('dap')
-dap.adapters.codelldb = function(callback, config)
--- specify in your configuration host = your_host , port = your_port
-    callback({ type = "server", host = config.host, port = config.port })
-end
+require('dap').set_log_level('DEBUG')
+require("dapui").setup()
 
-dap.adapters.codelldb = function(on_adapter)
-  local stdout = vim.loop.new_pipe(false)
-  local stderr = vim.loop.new_pipe(false)
-
-  local cmd = "C:/Users/ittai/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/adapter/codelldb.exe"
-
-  local handle, pid_or_err local opts = {
-    stdio = {nil, stdout, stderr},
-    detached = true,
-  }
-  handle, pid_or_err = vim.loop.spawn(cmd, opts, function(code)
-    stdout:close()
-    stderr:close()
-    handle:close()
-    if code ~= 0 then
-      print("codelldb exited with code", code)
-    end
-  end)
-  assert(handle, "Error running codelldb: " .. tostring(pid_or_err))
-  stdout:read_start(function(err, chunk)
-    assert(not err, err)
-    if chunk then
-      local port = chunk:match('Listening on port (%d+)')
-      if port then
-        vim.schedule(function()
-          on_adapter({
-            type = 'server',
-            host = '127.0.0.1',
-            port = port
-          })
-        end)
-      else
-        vim.schedule(function()
-          require("dap.repl").append(chunk)
-        end)
-      end
-    end
-  end)
-  stderr:read_start(function(err, chunk)
-    assert(not err, err)
-    if chunk then
-      vim.schedule(function()
-        require("dap.repl").append(chunk)
-      end)
-    end
-  end)
-end
+dap.adapters.lldb = {
+  type = 'executable',
+  command = '/usr/bin/lldb-vscode-14', -- adjust as needed, must be absolute path
+  name = 'lldb'
+}
 
 dap.configurations.cpp = {
   {
-    name = "Launch file",
-    type = "codelldb",
-    request = "launch",
+    name = 'Launch',
+    type = 'lldb',
+    request = 'launch',
     program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      return vim.g.execPath --vim.fn.getcwd() .. "/".. executable[vim.g.configIndex]
     end,
     cwd = '${workspaceFolder}',
-    console = "externalTerminal",
     stopOnEntry = false,
+    args = {},
   },
 }
-require('dap').set_log_level('DEBUG')
-require("dapui").setup()
 
 -- dap mappings
 local opts = { noremap=true }
@@ -82,3 +36,77 @@ vim.api.nvim_set_keymap("n","<leader>lbp", "<cmd>lua require'dap'.list_breakpoin
 vim.api.nvim_set_keymap("n","<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
 vim.api.nvim_set_keymap("n","<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", opts)
 
+vim.api.nvim_set_keymap("n","<leader>dui", "<cmd>lua require'dapui'.toggle()<CR>", {})
+vim.api.nvim_set_keymap("n","<F5>", "",
+{
+	callback = function()
+		if dap.session() == nil then
+			dap.continue({true})
+		else 
+			dap.continue({true})
+		end
+	end
+})
+
+-- keyboard layout is stupid for now do this 
+vim.api.nvim_set_keymap("n","<s-F5>", "",
+{
+	callback = function()
+		if dap.session() ~= nil then
+			dap.terminate()
+		end
+	end
+})
+
+vim.api.nvim_set_keymap("n","<c-s-F5>", "",
+{
+	callback = function()
+		if dap.session() ~= nil then
+			dap.restart()
+		end
+	end
+})
+
+local sidebar=false
+local widgets = require('dap.ui.widgets')
+local my_sidebar = widgets.sidebar(widgets.frames)
+vim.api.nvim_set_keymap("n","<leader>cs", "",
+{
+	callback = function()
+		if sidebar ~= true then
+			my_sidebar.open()
+			sidebar=true
+		else
+			my_sidebar.close()
+			sidebar=false
+		end
+	end
+})
+
+local locals = widgets.sidebar(widgets.scopes)
+vim.api.nvim_set_keymap("n","<leader>cv", "",
+{
+	callback = function()
+		if sidebar ~= true then
+			locals.open()
+			sidebar=true
+		else
+			locals.close()
+			sidebar=false
+		end
+	end
+})
+
+local watch = widgets.sidebar(widgets.expression)
+vim.api.nvim_set_keymap("n","<leader>cw", "",
+{
+	callback = function()
+		if sidebar ~= true then
+			watch.open()
+			sidebar=true
+		else
+			watch.close()
+			sidebar=false
+		end
+	end
+})

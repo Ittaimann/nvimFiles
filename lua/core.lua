@@ -46,6 +46,7 @@ augroup END
 require('lsp')
 require('format')
 require('debugging')
+require('build')
 -------------------- Lua Line ----------------------------
 
 require('lualine').setup{
