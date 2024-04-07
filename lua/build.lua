@@ -12,7 +12,6 @@ endfunction
 ]])
 
 local ScratchLua = function()
-    print("test")
 end
 
 ScratchLua()
