@@ -34,6 +34,10 @@ autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
 "set shellredir=\|\ Out-File\ -Encoding\ UTF8
 "
 "set makeprg=./build.bat
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --smart-case\ --hidden  
+    set grepformat=%f:%l:%c:%m
+endif
 
 augroup Markdown
     autocmd!
@@ -47,6 +51,8 @@ require('lsp')
 require('format')
 require('debugging')
 require('build')
+require('keymaps')
+
 -------------------- Lua Line ----------------------------
 
 require('lualine').setup{
@@ -77,43 +83,6 @@ require('lualine').setup{
         tabline = {},
         extensions = {}
 }
-
--------------------- projects ----------------------------
---require('project_nvim').setup {}
---require('telescope').setup{extensions = {
---'projects'
---}}
---require('telescope').load_extension('projects')
--------------------- Buffer Line ----------------------------
---vim.opt.termguicolors = true
---require("bufferline").setup{}
-------------------- spotify ----------------------------
--- myabe one day crying emoji -- 
--------------------- custom commands ----------------------------
-local opts = { noremap=true }
-local function set_keymap_norm(...) vim.api.nvim_buf_set_keymap(0,"n", ...) end
-
--- telescope mappings
-vim.api.nvim_set_keymap("n","<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>",opts )
-vim.api.nvim_set_keymap("n","<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
-vim.api.nvim_set_keymap("n","<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
-vim.api.nvim_set_keymap("n","<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", opts)
-
--- general mappings
-vim.api.nvim_set_keymap("n","tn","<cmd> tabnext <cr>",opts) vim.api.nvim_set_keymap("n","tN","<cmd> tabnew<cr>",opts)
-vim.api.nvim_set_keymap("n","tc","<cmd> tabclose <cr>",opts)
-vim.api.nvim_set_keymap('i',"jj","<ESC>",{})
-vim.api.nvim_set_keymap('n',"FF","yiw/<C-r>0",{})
-vim.api.nvim_set_keymap('n',"<leader>br","build",{})
-
--------------------- autocmd ------------------------------
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = { '*.zig' },
-    callback = function()
-        vim.o.makeprg = "zig/ build"
-    end,
-    group = generalSettingsGroup,
-})
 
 -------------------- custom format ------------------------------
 vim.o.encoding = "utf-8"

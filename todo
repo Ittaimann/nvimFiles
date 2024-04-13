@@ -1,2 +1,4 @@
-Change the mapping on the keyboard so that [] are not on a seperate layer or at least so that 
-you can do stuff without worrying about it.
+1. Clean up
+2. Make a keymappings file
+3. Create auto commands for key map setting.
+4. create scratch command
