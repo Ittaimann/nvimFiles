@@ -1,7 +1,7 @@
 -------------------- Debugger ----------------------------
 local dap = require('dap')
 require('dap').set_log_level('DEBUG')
-require("dapui").setup()
+-- require("dapui").setup()
 
 dap.adapters.lldb = {
   type = 'executable',

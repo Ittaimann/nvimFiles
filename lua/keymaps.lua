@@ -12,6 +12,7 @@ vim.keymap.set('i',"jj","<ESC>",{})
 vim.keymap.set('n',"FF","yiw/<C-r>0",{})
 
 -- telescope mappings
+vim.keymap.set("n","<C-p>", "<cmd>Telescope<cr>",opts )
 vim.keymap.set("n","<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>",opts )
 vim.keymap.set("n","<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
 vim.keymap.set("n","<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
@@ -78,7 +79,7 @@ vim.keymap.set("n","<leader>lbp", "<cmd>lua require'dap'.list_breakpoints()<CR>"
 vim.keymap.set("n","<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
 vim.keymap.set("n","<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", opts)
 
-vim.keymap.set("n","<leader>dui", "<cmd>lua require'dapui'.toggle()<CR>", {})
+-- vim.keymap.set("n","<leader>dui", "<cmd>lua require'dapui'.toggle()<CR>", {})
 
 local dap = require('dap')
 vim.keymap.set("n","<F5>", "",
