@@ -12,13 +12,11 @@ vim.keymap.set('i',"jj","<ESC>",{})
 vim.keymap.set('n',"FF","yiw/<C-r>0",{})
 
 -- telescope mappings
-vim.keymap.set("n","<C-p>", "<cmd>Telescope<cr>",opts )
-vim.keymap.set("n","<leader>ff", "<cmd>lua require('telescope.builtin').find_files()<cr>",opts )
-vim.keymap.set("n","<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
-vim.keymap.set("n","<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
-vim.keymap.set("n","<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", opts)
-vim.keymap.set("n","<leader>ts", "<cmd>Telescope<cr>", opts)
-
+vim.keymap.set("n","<leader>ff", "<cmd>lua require('telescope-config').find_files()<cr>",opts )
+vim.keymap.set("n","<leader>fg", "<cmd>lua require('telescope-config').live_grep()<cr>", opts)
+vim.keymap.set("n","<leader>fb", "<cmd>lua require('telescope-config').buffers()<cr>", opts)
+vim.keymap.set("n","<leader>fh", "<cmd>lua require('telescope-config').help_tags()<cr>", opts)
+vim.keymap.set("n","<C-p>", "<cmd>lua require('telescope-config').builtin()<cr>", opts)
 
 -- lsp
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -48,8 +46,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.buf.format { async = true }
     end, opts)
 
-	-- telescope
-    vim.keymap.set("n","<leader>ds", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", opts)
+-- telescope
+    vim.keymap.set("n","<leader>ds", "<cmd>lua require('telescope-config').lsp_document_symbols()<cr>", opts)
 
     -- lsp based diagnostics
     vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
