@@ -1,22 +1,21 @@
-require('build')
 require('lsp')
 require('dap')
 
 local opts = { noremap=true }
 
 -- general mappings
-vim.keymap.set("n","tn","<cmd> tabnext <cr>",opts) 
-vim.keymap.set("n","tN","<cmd> tabnew<cr>",opts)
-vim.keymap.set("n","tc","<cmd> tabclose <cr>",opts)
+vim.keymap.set("n","tn","<cmd> tabnext <cr>",{desc="next tab"}) 
+vim.keymap.set("n","tN","<cmd> tabnew<cr>",{desc="new tab",noremap=true })
+vim.keymap.set("n","tc","<cmd> tabclose <cr>",{desc="close tab",noremap=true })
 vim.keymap.set('i',"jj","<ESC>",{})
 vim.keymap.set('n',"FF","yiw/<C-r>0",{})
 
 -- telescope mappings
-vim.keymap.set("n","<leader>ff", "<cmd>lua require('telescope-config').find_files()<cr>",opts )
-vim.keymap.set("n","<leader>fg", "<cmd>lua require('telescope-config').live_grep()<cr>", opts)
-vim.keymap.set("n","<leader>fb", "<cmd>lua require('telescope-config').buffers()<cr>", opts)
-vim.keymap.set("n","<leader>fh", "<cmd>lua require('telescope-config').help_tags()<cr>", opts)
-vim.keymap.set("n","<C-p>", "<cmd>lua require('telescope-config').builtin()<cr>", opts)
+vim.keymap.set("n","<leader>ff", "<cmd>lua require('telescope-config').find_files()<cr>",{desc="telescope find files",noremap=true } )
+vim.keymap.set("n","<leader>fg", "<cmd>lua require('telescope-config').live_grep()<cr>", {desc="telescope live grep",noremap=true })
+vim.keymap.set("n","<leader>fb", "<cmd>lua require('telescope-config').buffers()<cr>", {desc="telescope buffers",noremap=true })
+vim.keymap.set("n","<leader>fh", "<cmd>lua require('telescope-config').help_tags()<cr>", {desc="telescope help tags",noremap=true })
+vim.keymap.set("n","<C-p>", "<cmd>lua require('telescope-config').builtin()<cr>", {desc="telescope",noremap=true })
 
 -- lsp
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -27,27 +26,27 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- Buffer local mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    -- local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, {desc="declaration", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {desc="definition", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, {desc="hover", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {desc="go implementatino", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, {desc="signature help", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, {desc="add to workspace folder", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, {desc="remove workspace folder", noremap=true, buffer=ev.buf })
     vim.keymap.set('n', '<space>wl', function()
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    end, {desc="list workspace folders", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, {desc="type definition", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, {desc="rename", noremap=true, buffer=ev.buf })
+    vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, {desc="code actions", noremap=true, buffer=ev.buf })
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, {desc="find references", noremap=true, buffer=ev.buf })
     vim.keymap.set('n', '<space>f', function()
       vim.lsp.buf.format { async = true }
-    end, opts)
+    end, {desc="format", noremap=true, buffer=ev.buf })
 
 -- telescope
-    vim.keymap.set("n","<leader>ds", "<cmd>lua require('telescope-config').lsp_document_symbols()<cr>", opts)
+    vim.keymap.set("n","<leader>ds", "<cmd>lua require('telescope-config').lsp_document_symbols()<cr>", {desc="symbols in document", noremap=true, buffer=ev.buf })
 
     -- lsp based diagnostics
     vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
@@ -58,57 +57,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- build --
-vim.keymap.set('n', '<Leader>b',"", {
-  callback = function()
-    makeprogramSet()
-  end
-})
+vim.keymap.set('n', '<Leader>b',"<cmd>lua require('build').make()<cr>", {desc="build"})
 
+-- scratch --
+vim.keymap.set('n', '<Leader>sb',"<cmd>lua require('buffer-utils').Scratch()<cr>", {desc="scratch"})
 
 -- dap --
-vim.keymap.set("n","<F5>", "<cmd>lua require'dap'.continue()<CR>", opts)
-vim.keymap.set("n","<F10>", "<cmd>lua require'dap'.step_over()<CR>", opts)
-vim.keymap.set("n","<F11>", "<cmd>lua require'dap'.step_into()<CR>", opts)
-vim.keymap.set("n","<F12>", "<cmd>lua require'dap'.step_out()<CR>", opts)
-vim.keymap.set("n","<leader>tb", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
-vim.keymap.set("n","<leader>bp", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", opts)
-vim.keymap.set("n","<leader>lp", "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", opts)
-vim.keymap.set("n","<leader>lbp", "<cmd>lua require'dap'.list_breakpoints()<CR>", opts)
-vim.keymap.set("n","<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
-vim.keymap.set("n","<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", opts)
+vim.keymap.set("n","<F10>", "<cmd>lua require'dap'.step_over()<CR>", {desc="dap step over",noremap=true })
+vim.keymap.set("n","<F11>", "<cmd>lua require'dap'.step_into()<CR>", {desc="dap step into",noremap=true })
+vim.keymap.set("n","<F12>", "<cmd>lua require'dap'.step_out()<CR>", {desc="dap step out",noremap=true })
+vim.keymap.set("n","<leader>tb", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", {desc="toggle breakpoint",noremap=true })
+vim.keymap.set("n","<leader>bp", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", {desc="conditional breakpoint",noremap=true })
+vim.keymap.set("n","<leader>lp", "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", {desc="log breakpoint",noremap=true })
+vim.keymap.set("n","<leader>lbp", "<cmd>lua require'dap'.list_breakpoints()<CR>", {desc="list breakpoints",noremap=true })
+vim.keymap.set("n","<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", {desc="open repl",noremap=true })
+vim.keymap.set("n","<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", {desc="run last",noremap=true })
 
--- vim.keymap.set("n","<leader>dui", "<cmd>lua require'dapui'.toggle()<CR>", {})
-
-local dap = require('dap')
-vim.keymap.set("n","<F5>", "",
-{
-callback = function()
-if dap.session() == nil then
-  dap.continue({true})
-else 
-  dap.continue({true})
-end
-end
-})
-
--- keyboard layout is stupid for now do this 
-vim.keymap.set("n","<s-F5>", "",
-{
-callback = function()
-if dap.session() ~= nil then
-  dap.terminate()
-end
-end
-})
-
-vim.keymap.set("n","<c-s-F5>", "",
-{
-callback = function()
-if dap.session() ~= nil then
-  dap.restart()
-end
-end
-})
+local debugging = require('debugging')
+vim.keymap.set("n","<F5>", "<cmd>lua require('debugging').run()<cr>",{desc="run"})
+vim.keymap.set("n","<s-F5>", "<cmd>lua require('debugging').terminate()<cr>",{desc="stop"})
+vim.keymap.set("n","<c-s-F5>", "<cmd>lua require('debugging').restart()<cr>",{desc="restart"})
 
 local sidebar=false
 local widgets = require('dap.ui.widgets')

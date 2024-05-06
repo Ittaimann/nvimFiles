@@ -1,5 +1,3 @@
-local lspconfig = require('lspconfig')
-
 local cmp = require 'cmp'
 cmp.setup {
   snippet = {

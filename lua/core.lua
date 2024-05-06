@@ -41,7 +41,6 @@ endif
 ]]
 )
 
-
 require('lsp')
 require('format')
 require('debugging')
