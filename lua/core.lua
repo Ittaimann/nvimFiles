@@ -47,7 +47,7 @@ require('debugging')
 require('build')
 require('keymaps')
 require('telescope')
-require('lualine')
+require('lualine-config')
 
 -------------------- custom format ------------------------------
 vim.o.encoding = "utf-8"
