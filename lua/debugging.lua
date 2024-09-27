@@ -30,7 +30,7 @@ M.running= false
 M.frames= widgets.sidebar(widgets.frames)
 M.scopes= widgets.sidebar(widgets.scopes)
 M.watch = widgets.sidebar(widgets.expression)
-M.breakpointList;
+--M.breakpointList
 
 local sign = vim.fn.sign_define
 
