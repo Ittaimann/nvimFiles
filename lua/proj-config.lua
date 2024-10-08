@@ -50,18 +50,4 @@ function M.setup(config_table)
 
 end
 
-
----- go to build with the correct config
---function M.configBuild()
---  local build = require('build')
---  build.make()
---end
---
---function M.configRun()
---end
---
---
---function M.configDebug()
---end
-
 return M

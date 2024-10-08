@@ -46,3 +46,15 @@ require'nvim-treesitter.configs'.setup {
         enable = true
     }
 }
+
+-- Zig
+local lspconfig = require("lspconfig")
+lspconfig.zls.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+	cmd = { "zls" },
+	filetypes = { "zig", "zir" },
+	root_dir = lspconfig.util.root_pattern("zls.json", "build.zig", ".git"),
+	single_file_support = true,
+})
+

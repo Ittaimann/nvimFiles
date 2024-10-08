@@ -9,6 +9,22 @@ dap.adapters.lldb = {
 }
 
 -- maybe move this out to proj config or the local
+dap.configurations.zig= {
+  {
+    name = 'Launch',
+    type = 'lldb',
+    request = 'launch',
+    program = function()
+      return require("proj-config").getExecutable()
+    end,
+    cwd = '${workspaceFolder}',
+    stopOnEntry = false,
+    args = {},
+  },
+}
+
+
+-- maybe move this out to proj config or the local
 dap.configurations.cpp = {
   {
     name = 'Launch',
