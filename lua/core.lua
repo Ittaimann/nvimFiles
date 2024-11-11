@@ -66,7 +66,4 @@ function M.init(proj_config)
   vim.o.relativenumber = true
 end
 
-function M.ugh()
-  print("mm")
-end
 return M

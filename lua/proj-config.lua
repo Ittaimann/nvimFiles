@@ -30,7 +30,11 @@ end
 
 
 function M.run()
-  vim.cmd("! "..M.exec_paths[M.currentConfig])
+  if M.configCount == 1 then
+    vim.cmd("! "..M.exec_paths)
+  else
+    vim.cmd("! "..M.exec_paths[M.currentConfig])
+  end
 end
 
 function M.getExecutable()
@@ -44,6 +48,8 @@ function M.setup(config_table)
   M.make_args= config_table.make_args
   M.currentConfig = 1
   M.usingConfigs = true 
+  -- warning, if you do an so for a new lua state it does NOT clear the prior one, figure out if there
+  -- is a proper shutdown/restart path
   for _ in pairs(config_table.proj_configs) do
     M.configCount = M.configCount + 1 
   end

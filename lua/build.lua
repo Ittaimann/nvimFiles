@@ -50,6 +50,5 @@ function M.makeAsync()
     }
 
   )
-  print("shit")
 end
 return M
