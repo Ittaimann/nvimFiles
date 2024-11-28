@@ -1,12 +1,15 @@
 -------------------- Debugger ----------------------------
 local dap = require('dap')
+
 dap.set_log_level('DEBUG')
 
+dap.defaults.fallback.terminal_win_cmd = 'bel 5 new'
 dap.adapters.lldb = {
   type = 'executable',
   command = '/usr/bin/lldb-dap', -- adjust as needed, must be absolute path
-  name = 'lldb'
+  name = 'lldb',
 }
+
 
 -- maybe move this out to proj config or the local
 dap.configurations.zig= {
@@ -35,6 +38,7 @@ dap.configurations.cpp = {
     end,
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
+    runInTerminal = true,
     args = {},
   },
 }
@@ -53,6 +57,30 @@ local sign = vim.fn.sign_define
 sign('DapBreakpoint', {text='🔴', texthl='', linehl='', numhl=''})
 sign('DapStopped', {text='➡️', texthl='', linehl='', numhl=''})
 sign('DapBreakpointRejected', {text='😔', texthl='', linehl='', numhl=''})
+
+function M.showScopes()
+   M.scopes.open()
+end
+
+function M.showFrame()
+   M.frames.open()
+end
+
+function M.showWatch()
+   M.watch.open()
+end
+
+function M.openRepl()
+  dap.repl.open()
+end
+
+function M.openHover()
+  widgets.hover()
+end
+
+function M.openPreview()
+  widgets.preview()
+end
 
 function M.continueSession()
   M.running = true
@@ -155,6 +183,7 @@ function M.attach()
   dap.attach()
 end
 function M.list_breakpoints()
+  vim.cmd "copen"
   dap.list_breakpoints()
 end
 function M.run_last()
@@ -176,7 +205,7 @@ function M.run_to_cursor()
   dap.run_to_cursor()
 end
 function M.restart_frame()
-  dap.restart_frame()
+  --dap.restart_frame()
 end
 function M.step_into()
   dap.step_into()

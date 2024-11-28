@@ -59,8 +59,8 @@ function M.init(proj_config)
 
   -- project 
   if proj_config ~= nil then
-    vim.keymap.set('n', '<Leader>b', function() proj_config.build() end, {desc="Build Project"}) 
-    vim.keymap.set('n', '<Leader>r', function() proj_config.run() end,{ desc="Run"} )
+    vim.keymap.set('n', '<Leader>b', function() proj_config.build() end, {desc="Build project"}) 
+    vim.keymap.set('n', '<Leader>r', function() proj_config.run() end,{ desc="Run project"} )
     vim.keymap.set('n', '<Leader>c', function() proj_config.toggleConfig() end, {desc="Change config"} )
 
   end
@@ -69,67 +69,21 @@ function M.init(proj_config)
   vim.keymap.set('n', '<Leader>sb',"<cmd>lua require('buffer-utils').Scratch()<cr>", {desc="scratch"})
 
   -- dap --
-  --vim.keymap.set("n","<F10>", "<cmd>lua require'dap'.step_over()<CR>", {desc="dap step over",noremap=true })
-  --vim.keymap.set("n","<F11>", "<cmd>lua require'dap'.step_into()<CR>", {desc="dap step into",noremap=true })
-  --vim.keymap.set("n","<F12>", "<cmd>lua require'dap'.step_out()<CR>", {desc="dap step out",noremap=true })
-  --vim.keymap.set("n","<leader>tb", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", {desc="toggle breakpoint",noremap=true })
-  --vim.keymap.set("n","<leader>bp", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", {desc="conditional breakpoint",noremap=true })
-  --vim.keymap.set("n","<leader>lp", "<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", {desc="log breakpoint",noremap=true })
-  --vim.keymap.set("n","<leader>lbp", "<cmd>lua require'dap'.list_breakpoints()<CR>", {desc="list breakpoints",noremap=true })
-  --vim.keymap.set("n","<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", {desc="open repl",noremap=true })
-  --vim.keymap.set("n","<leader>dl", "<cmd>lua require'dap'.run_last()<CR>", {desc="run last",noremap=true })
-
   local debugging = require('debugging')
   vim.keymap.set("n","<F5>", function() debugging.continueSession() end,{desc="debug run"})
   vim.keymap.set("n","<F17>", function() debugging.endDebugSession() end,{desc="debug stop"})
   vim.keymap.set("n","<F41>", function() debugging.restartSession() end,{desc="debug restart"})
   vim.keymap.set("n","<F9>", function() debugging.placeBreakPoint() end,{desc="toggle breakpoint"})
-  vim.keymap.set("n","<leader>lbp", function() debugging.list_breakpoints() end, {desc="list breakpoints",noremap=true })
+  vim.keymap.set("n","<leader>lbp", function() debugging.listBreakPoints() end, {desc="list breakpoints",noremap=true })
   vim.keymap.set("n","<F10>", function() debugging.stepOver() end,{desc="debug step over"})
   vim.keymap.set("n","<F11>", function() debugging.stepIn() end,{desc="debug step in"})
   vim.keymap.set("n","<F23>", function() debugging.stepOut() end,{desc="debug step out"})
+  vim.keymap.set("n","<leader>dbs", function() debugging.showScopes() end,{desc="debug show scopes"})
+  vim.keymap.set("n","<leader>dbw", function() debugging.showWatch() end,{desc="debug show watch"})
+  vim.keymap.set("n","<leader>dbf", function() debugging.showFrame() end,{desc="debug show frame"})
+  vim.keymap.set("n","<leader>dbr", function() debugging.openRepl() end,{desc="debug show repl"})
+  vim.keymap.set("n","<leader>dbh", function() debugging.openHover() end,{desc="debug show hover"})
+  vim.keymap.set("n","<leader>dbp", function() debugging.openPreview() end,{desc="debug show preivew"})
 
---  local sidebar=false
---  local widgets = require('dap.ui.widgets')
---  local my_sidebar = widgets.sidebar(widgets.frames)
---  vim.keymap.set("n","<leader>cs", "",
---  {
---  callback = function()
---  if sidebar ~= true then
---    my_sidebar.open()
---    sidebar=true
---  else
---    my_sidebar.close()
---    sidebar=false
---  end
---  end
---  })
---
---  local locals = widgets.sidebar(widgets.scopes)
---  vim.keymap.set("n","<leader>cv", "",
---  {
---  callback = function()
---  if sidebar ~= true then
---    locals.open()
---    sidebar=true
---  else
---    locals.close()
---    sidebar=false
---  end
---  end
---  })
---
---  local watch = widgets.sidebar(widgets.expression)
---  vim.keymap.set("n","<leader>cw", "", {
---  callback = function()
---  if sidebar ~= true then
---    watch.open()
---    sidebar=true
---  else
---    watch.close()
---    sidebar=false
---  end
---  end
---  })
 end
 return M
