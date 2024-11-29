@@ -55,7 +55,7 @@ M.watch = widgets.sidebar(widgets.expression)
 local sign = vim.fn.sign_define
 
 sign('DapBreakpoint', {text='🔴', texthl='', linehl='', numhl=''})
-sign('DapStopped', {text='➡️', texthl='', linehl='', numhl=''})
+sign('DapStopped', {text='👉', texthl='', linehl='', numhl=''})
 sign('DapBreakpointRejected', {text='😔', texthl='', linehl='', numhl=''})
 
 function M.showScopes()
