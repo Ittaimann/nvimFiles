@@ -39,7 +39,10 @@ dap.configurations.cpp = {
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
     runInTerminal = true,
-    args = {},
+    args = function()
+      print(require("proj-config").getLaunchArgs())
+      return vim.split(require("proj-config").getLaunchArgs(), " ")
+    end,
   },
 }
 

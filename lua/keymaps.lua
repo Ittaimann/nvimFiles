@@ -62,6 +62,7 @@ function M.init(proj_config)
     vim.keymap.set('n', '<Leader>b', function() proj_config.build() end, {desc="Build project"}) 
     vim.keymap.set('n', '<Leader>r', function() proj_config.run() end,{ desc="Run project"} )
     vim.keymap.set('n', '<Leader>c', function() proj_config.toggleConfig() end, {desc="Change config"} )
+    vim.keymap.set('n', '<Leader>t', function() proj_config.toggleTarget() end, {desc="Change target"} )
 
   end
 

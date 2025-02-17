@@ -10,10 +10,18 @@ M.make_args= {}
 M.currentConfig = 1
 M.usingConfigs = false
 M.configCount  = 0
+M.currentTarget = 0
+M.targets = {}
+M.launch_args = {}
 
 function M.build()
   local build = require("build")
-  build.setMake(M.make_cmd.. " "..M.make_args[M.currentConfig])
+  if table.getn(M.targets) == 0 then
+    build.setMake(M.make_cmd.." "..M.make_args[M.currentConfig])
+  else
+    build.setMake(M.make_cmd.." "..M.make_args[M.currentConfig].." "..M.targets[M.currentTarget])
+    print((M.make_cmd.." "..M.make_args[M.currentConfig].." "..M.targets[M.currentTarget]))
+  end
   build.make()
 end
 
@@ -24,21 +32,37 @@ function M.toggleConfig()
   end
 end
 
+function M.toggleTarget()
+  M.currentTarget = M.currentTarget+ 1
+  if M.currentTarget > table.getn(M.targets) then
+    M.currentTarget = 1
+  end
+end
+
 function M.getCurrentConfig()
   return M.proj_configs[M.currentConfig]
 end
 
 
 function M.run()
-  if M.configCount == 1 then
-    vim.cmd("! "..M.exec_paths)
-  else
-    vim.cmd("! "..M.exec_paths[M.currentConfig])
-  end
+   local  args = M.launch_args
+  vim.cmd("! "..M.getExecutable().." --ra "..args)
 end
 
 function M.getExecutable()
-  return M.exec_paths[M.currentConfig]
+  local target = "" 
+  if table.getn(M.targets) > 0 then
+    target = "/"..M.targets[M.currentTarget] 
+  end
+  return M.exec_paths[M.currentConfig]..target
+end
+
+function M.getTarget()
+  return M.targets[M.currentTarget]
+end
+
+function M.getLaunchArgs()
+  return M.launch_args
 end
 
 function M.setup(config_table)
@@ -48,12 +72,10 @@ function M.setup(config_table)
   M.make_args= config_table.make_args
   M.currentConfig = 1
   M.usingConfigs = true 
-  -- warning, if you do an so for a new lua state it does NOT clear the prior one, figure out if there
-  -- is a proper shutdown/restart path
-  for _ in pairs(config_table.proj_configs) do
-    M.configCount = M.configCount + 1 
-  end
-
+  M.currentTarget = 1
+  M.targets = config_table.targets
+  M.configCount = table.getn(config_table.proj_configs)
+  M.launch_args = config_table.launch_args
 end
 
 return M
