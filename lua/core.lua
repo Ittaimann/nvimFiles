@@ -51,6 +51,9 @@ function M.init(proj_config)
   require('telescope')
   require('lualine-config')
 
+  vim.filetype.add {
+    extension = { slang = 'slang'},
+  }
   -------------------- custom format ------------------------------
   vim.o.encoding = "utf-8"
   vim.o.fileencoding = "utf-8"
