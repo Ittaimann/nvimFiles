@@ -28,23 +28,15 @@ function M.init(proj_config)
       -- Buffer local mappings.
       -- See `:help vim.lsp.*` for documentation on any of the below functions
       -- local opts = { buffer = ev.buf }
-      vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, {desc="declaration", noremap=true, buffer=ev.buf })
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {desc="definition", noremap=true, buffer=ev.buf })
+      vim.keymap.set('n', 'grd', vim.lsp.buf.declaration, {desc="declaration", noremap=true, buffer=ev.buf })
+      vim.keymap.set('n', 'grD', vim.lsp.buf.definition, {desc="definition", noremap=true, buffer=ev.buf })
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, {desc="hover", noremap=true, buffer=ev.buf })
-      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {desc="go implementatino", noremap=true, buffer=ev.buf })
-      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, {desc="signature help", noremap=true, buffer=ev.buf })
       vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, {desc="add to workspace folder", noremap=true, buffer=ev.buf })
       vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, {desc="remove workspace folder", noremap=true, buffer=ev.buf })
       vim.keymap.set('n', '<space>wl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end, {desc="list workspace folders", noremap=true, buffer=ev.buf })
       vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, {desc="type definition", noremap=true, buffer=ev.buf })
-      vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, {desc="rename", noremap=true, buffer=ev.buf })
-      vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, {desc="code actions", noremap=true, buffer=ev.buf })
-      vim.keymap.set('n', 'gr', vim.lsp.buf.references, {desc="find references", noremap=true, buffer=ev.buf })
-      vim.keymap.set('n', '<space>f', function()
-        vim.lsp.buf.format { async = true }
-      end, {desc="format", noremap=true, buffer=ev.buf })
 
   -- telescope
       vim.keymap.set("n","<leader>ds", "<cmd>lua require('telescope-config').lsp_document_symbols()<cr>", {desc="symbols in document", noremap=true, buffer=ev.buf })

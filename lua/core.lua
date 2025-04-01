@@ -5,9 +5,6 @@ function M.init(proj_config)
   "------------------------ Packages --------------------------
   call plug#begin()
   Plug 'neovim/nvim-lspconfig'
-  Plug 'ms-jpq/coq_nvim'
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'mfussenegger/nvim-dap'
   Plug 'ziglang/zig.vim'
@@ -17,7 +14,6 @@ function M.init(proj_config)
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'nvim-lualine/lualine.nvim'
   Plug 'akinsho/bufferline.nvim'
-  Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'L3MON4D3/LuaSnip'
   Plug 'tpope/vim-dispatch'
   call plug#end()
@@ -67,6 +63,17 @@ function M.init(proj_config)
   vim.o.listchars = "tab:>>,space:·"
   vim.o.list = true
   vim.o.relativenumber = true
+
+  vim.lsp.config('*', {
+    capabilities = {
+      textDocument = {
+        semanticTokens = {
+          multilineTokenSupport = true,
+        }
+      }
+    },
+    root_markers = { '.git' },
+  })
 end
 
 return M
