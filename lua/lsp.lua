@@ -7,7 +7,7 @@ require'nvim-treesitter.configs'.setup {
 }
 
 
-vim.cmd[[set completeopt+=noselect]]
+vim.o.completeopt = 'menuone,noinsert,popup'
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('my.lsp', {}),
   callback = function(args)
