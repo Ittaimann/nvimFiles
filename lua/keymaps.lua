@@ -31,7 +31,7 @@ end
 
 -- bind lsp functions
 -- called bind lsp files
-function M.bindLSPKeys(args)
+function M.bindLSPKeys(opts, args)
   -- Enable completion triggered by <c-x><c-o>
   vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -51,6 +51,10 @@ function M.bindLSPKeys(args)
     buffer =
         args.buf
   })
+
+  if opts["impl"] == true then
+    map.set('n', 'gdd', vim.lsp.buf.implementation, { desc = "implementation" })
+  end
 
   -- telescope
   map.set("n", "<leader>ds", "<cmd>lua require('telescope-config').lsp_document_symbols()<cr>",

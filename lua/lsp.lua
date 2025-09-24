@@ -12,8 +12,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
     -- TODO: add this support into keymaps
+    local opts = {}
     if client:supports_method('textDocument/implementation') then
-      -- Create a keymap for vim.lsp.buf.implementation ...
+      opts["impl"] = true
     end
 
     -- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
@@ -35,9 +36,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
           vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
         end,
       })
-
     end
-    require("keymaps").bindLSPKeys(args)
+    require("keymaps").bindLSPKeys(opts, args)
   end,
 })
 
@@ -67,33 +67,19 @@ vim.lsp.config('lua_ls', {
 
     client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
       runtime = {
-        -- Tell the language server which version of Lua you're using (most
-        -- likely LuaJIT in the case of Neovim)
         version = 'LuaJIT',
-        -- Tell the language server how to find Lua modules same way as Neovim
-        -- (see `:h lua-module-load`)
         path = {
           'lua/?.lua',
           'lua/?/init.lua',
         },
       },
-      -- Make the server aware of Neovim runtime files
       workspace = {
         checkThirdParty = false,
         library = {
-          vim.env.VIMRUNTIME
-          -- Depending on the usage, you might want to add additional paths
-          -- here.
-          -- '${3rd}/luv/library'
-          -- '${3rd}/busted/library'
+          -- libraries being used
+          vim.env.VIMRUNTIME,
+          '${3rd}/luv/library'
         }
-        -- Or pull in all of 'runtimepath'.
-        -- NOTE: this is a lot slower and will cause issues when working on
-        -- your own configuration.
-        -- See https://github.com/neovim/nvim-lspconfig/issues/3189
-        -- library = {
-        --   vim.api.nvim_get_runtime_file('', true),
-        -- }
       }
     })
   end,
@@ -102,8 +88,3 @@ vim.lsp.config('lua_ls', {
   }
 })
 vim.lsp.enable("lua_ls")
-
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*.*" },
-  callback = function() vim.lsp.buf.format() end,
-})

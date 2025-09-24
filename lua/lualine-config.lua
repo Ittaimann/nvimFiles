@@ -1,5 +1,4 @@
 -------------------- Lua Line ----------------------------
-
 -- default lua line. Likely to be overriden on a per proj basis
 require('lualine').setup {
   options = {
