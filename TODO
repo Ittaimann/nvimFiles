@@ -1,0 +1,8 @@
+TODO (new)
+
+cleanup lsp implmentation and make it so the keymap can actually get the full
+power of the lsp. function for lsp query.
+
+cleanup debugging controls and make it more reasonable.
+
+reduce sillyness with additional locals and everything...
