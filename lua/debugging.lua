@@ -12,7 +12,7 @@ dap.adapters.lldb = {
 
 
 -- maybe move this out to proj config or the local
-dap.configurations.zig= {
+dap.configurations.zig = {
   {
     name = 'Launch',
     type = 'lldb',
@@ -48,29 +48,32 @@ dap.configurations.cpp = {
 
 -- debugging state
 local M = {}
+
 local widgets = require('dap.ui.widgets')
-M.running= false 
-M.frames= widgets.sidebar(widgets.frames)
-M.scopes= widgets.sidebar(widgets.scopes)
+M.running = false
+M.frames = widgets.sidebar(widgets.frames)
+M.scopes = widgets.sidebar(widgets.scopes)
 M.watch = widgets.sidebar(widgets.expression)
 --M.breakpointList
 
+require("keymaps").bindDebugKeys(M)
+
 local sign = vim.fn.sign_define
 
-sign('DapBreakpoint', {text='🔴', texthl='', linehl='', numhl=''})
-sign('DapStopped', {text='👉', texthl='', linehl='', numhl=''})
-sign('DapBreakpointRejected', {text='😔', texthl='', linehl='', numhl=''})
+sign('DapBreakpoint', { text = '🔴', texthl = '', linehl = '', numhl = '' })
+sign('DapStopped', { text = '👉', texthl = '', linehl = '', numhl = '' })
+sign('DapBreakpointRejected', { text = '😔', texthl = '', linehl = '', numhl = '' })
 
 function M.showScopes()
-   M.scopes.open()
+  M.scopes.open()
 end
 
 function M.showFrame()
-   M.frames.open()
+  M.frames.open()
 end
 
 function M.showWatch()
-   M.watch.open()
+  M.watch.open()
 end
 
 function M.openRepl()
@@ -87,7 +90,7 @@ end
 
 function M.continueSession()
   M.running = true
-  dap.continue({true})
+  dap.continue({ true })
 end
 
 function M.endDebugSession()
@@ -99,7 +102,7 @@ end
 
 function M.restartSession()
   if M.running == true then
-    M.restart({true})
+    M.restart({ true })
   end
 end
 
@@ -129,7 +132,7 @@ end
 
 --- wrappers around dap
 function M.continue()
-    dap.continue({true})
+  dap.continue({ true })
 end
 
 function M.terminate()
@@ -143,94 +146,124 @@ end
 function M.run()
   dap.run()
 end
+
 function M.sessions()
   dap.sessions()
 end
+
 function M.step_out()
   dap.step_out()
 end
+
 function M.stop()
   dap.stop()
 end
+
 function M.step_back()
   dap.step_back()
 end
+
 function M.reverse_continue()
   dap.reverse_continue()
 end
+
 function M.set_log_level()
   dap.set_log_level()
 end
+
 function M.pause()
   dap.pause()
 end
+
 function M.launch()
   dap.launch()
 end
+
 function M.close()
   dap.close()
 end
+
 function M.disconnect()
   dap.disconnect()
 end
+
 function M.up()
   dap.up()
 end
+
 function M.down()
   dap.down()
 end
+
 function M.goto_()
   dap.goto_()
 end
+
 function M.attach()
   dap.attach()
 end
+
 function M.list_breakpoints()
   vim.cmd "copen"
   dap.list_breakpoints()
 end
+
 function M.run_last()
   dap.run_last()
 end
+
 function M.step_over()
   dap.step_over()
 end
+
 function M.focus_frame()
   dap.focus_frame()
 end
+
 function M.set_session()
   dap.set_session()
 end
+
 function M.set_breakpoint()
   dap.set_breakpoint()
 end
+
 function M.run_to_cursor()
   dap.run_to_cursor()
 end
+
 function M.restart_frame()
   --dap.restart_frame()
 end
+
 function M.step_into()
   dap.step_into()
 end
+
 function M.toggle_breakpoint()
   dap.toggle_breakpoint()
 end
+
 function M.session()
   dap.session()
 end
+
 function M.terminate()
   dap.terminate()
 end
+
 function M.restart()
   dap.restart()
 end
+
 function M.status()
   dap.status()
 end
+
 function M.clear_breakpoints()
   dap.clear_breakpoints()
 end
+
 function M.set_exception_breakpoints()
   dap.set_exception_breakpoints()
 end

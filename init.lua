@@ -1,2 +1,4 @@
--- My neo vim conifg. Some pieces are still  in vim script but thats fine I guess
+-- My neovim conifg.
+-- core idea is that there is a core library we always load and 
+-- the per project configs use the libraires I make
 require "core".init()

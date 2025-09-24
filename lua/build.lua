@@ -1,18 +1,19 @@
-local M={}
+local M = {}
 
-M.build_configs={}
-M.executable=""
+M.build_configs = {}
+M.executable = ""
 
 function M.setMake(make_command)
-	vim.o.makeprg = make_command 
+  vim.o.makeprg = make_command
 end
 
 function M.make()
-	vim.cmd.make()
+  vim.cmd.make()
 end
 
+-- TODO: enable this eventually.
 function M.makeAsync()
-  local lines = {""}
+  local lines = { "" }
   local winnr = vim.fn.win_getid()
 
   local makeprg = vim.api.nvim_get_option("makeprg")
@@ -29,7 +30,7 @@ function M.makeAsync()
     end
 
     if event == "exit" then
-      vim.fn.setqflist({}," ", {
+      vim.fn.setqflist({}, " ", {
         title = cmd,
         lines = lines,
         efm = vim.api.nvim_get_option("errorformat")
@@ -39,16 +40,17 @@ function M.makeAsync()
   end
 
   local job_id =
-    vim.fn.jobstart(
-    cmd,
-    {
-      on_stderr = on_event,
-      on_stdout = on_event,
-      on_exit = on_event,
-      stdout_buffered = true,
-      stderr_buffered = true,
-    }
+      vim.fn.jobstart(
+        cmd,
+        {
+          on_stderr = on_event,
+          on_stdout = on_event,
+          on_exit = on_event,
+          stdout_buffered = true,
+          stderr_buffered = true,
+        }
 
-  )
+      )
 end
+
 return M

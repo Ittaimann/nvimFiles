@@ -1,4 +1,6 @@
-local M={}
+local M = {}
+-- TODO: kill this section
+-- when the new plugin system exists this should die with reliance on vimplug
 function M.init(proj_config)
   vim.cmd([[
 
@@ -32,48 +34,35 @@ function M.init(proj_config)
   "
   "set makeprg=./build.bat
   if executable("rg")
-      set grepprg=rg\ --vimgrep\ --smart-case\ --hidden  
+      set grepprg=rg\ --vimgrep\ --smart-case\ --hidden
       set grepformat=%f:%l:%c:%m
   endif
 
   ]]
   )
 
+  require('keymaps').init()
   require('lsp')
-  require('format')
-  require('debugging')
   require('build')
-  require('keymaps').init(proj_config)
   require('telescope')
   require('lualine-config')
 
   vim.filetype.add {
-    extension = { slang = 'slang'},
+    extension = { slang = 'slang' },
   }
   -------------------- custom format ------------------------------
   vim.o.encoding = "utf-8"
   vim.o.fileencoding = "utf-8"
   vim.o.copyindent = true
   vim.o.preserveindent = true
-  vim.o.softtabstop=0
-  vim.o.tabstop=4
-  vim.o.shiftwidth=4
+  vim.o.softtabstop = 0
+  vim.o.tabstop = 4
+  vim.o.shiftwidth = 4
   vim.o.expandtab = false
-  vim.o.wrap = false 
+  vim.o.wrap = false
   vim.o.listchars = "tab:>>,space:·"
   vim.o.list = true
   vim.o.relativenumber = true
-
-  vim.lsp.config('*', {
-    capabilities = {
-      textDocument = {
-        semanticTokens = {
-          multilineTokenSupport = true,
-        }
-      }
-    },
-    root_markers = { '.git' },
-  })
 end
 
 return M

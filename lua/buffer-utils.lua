@@ -1,7 +1,7 @@
-local M={}
+local M = {}
 
 function M.Scratch()
-  local buf = vim.api.nvim_create_buf({},true)
+  local buf = vim.api.nvim_create_buf(true, true)
   vim.api.nvim_buf_set_name(buf, 'scratch')
   vim.api.nvim_set_current_buf(buf)
   return buf
