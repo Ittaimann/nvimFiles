@@ -1,8 +1,11 @@
 TODO (new)
 
-cleanup lsp implmentation and make it so the keymap can actually get the full
-power of the lsp. function for lsp query.
-
 cleanup debugging controls and make it more reasonable.
+the whole system is sorta not good at all
+  - cache buffers that may be of interest and make quick hide/show commands.
 
 reduce sillyness with additional locals and everything...
+
+get async build working
+
+improve flow of the project config can optionally set up debug and build stuff
