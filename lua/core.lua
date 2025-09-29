@@ -1,7 +1,6 @@
 local M = {}
--- TODO: kill this section
--- when the new plugin system exists this should die with reliance on vimplug
-function M.init(proj_config)
+-- todo: replace withnvim plug
+function M.init()
   vim.cmd([[
 
   "------------------------ Packages --------------------------
@@ -47,9 +46,6 @@ function M.init(proj_config)
   require('telescope')
   require('lualine-config')
 
-  vim.filetype.add {
-    extension = { slang = 'slang' },
-  }
   -------------------- custom format ------------------------------
   vim.o.encoding = "utf-8"
   vim.o.fileencoding = "utf-8"

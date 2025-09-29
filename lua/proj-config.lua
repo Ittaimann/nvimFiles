@@ -1,3 +1,4 @@
+require("debugging")
 local M         = {}
 
 -- big old wrapper around a lot of stuff lmao
@@ -75,7 +76,7 @@ function M.setup(config_table)
   M.usingConfigs = true
   M.currentTarget = 1
   M.targets = config_table.targets
-  M.configCount = table.getn(config_table.proj_configs)
+  M.configCount = #(config_table.proj_configs)
   M.launch_args = config_table.launch_args
 end
 

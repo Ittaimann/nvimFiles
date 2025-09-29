@@ -17,6 +17,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
       opts["impl"] = true
     end
 
+    if client:supports_method('textDocument/switchSourceHeader') then
+      opts["clangd_header_switch"] = true
+    end
+
     -- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
     if client:supports_method('textDocument/completion') then
       -- Optional: trigger autocompletion on EVERY keypress. May be slow!

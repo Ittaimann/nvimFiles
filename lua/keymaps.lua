@@ -56,6 +56,10 @@ function M.bindLSPKeys(opts, args)
     map.set('n', 'gdd', vim.lsp.buf.implementation, { desc = "implementation" })
   end
 
+  if opts["clangd_header_switch"] == true then
+    map.set('n', '<space>s', "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "swap header", noremap = true })
+  end
+
   -- telescope
   map.set("n", "<leader>ds", "<cmd>lua require('telescope-config').lsp_document_symbols()<cr>",
     { desc = "symbols in document", noremap = true, buffer = args.buf })
