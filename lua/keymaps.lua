@@ -57,7 +57,7 @@ function M.bindLSPKeys(opts, args)
   end
 
   if opts["clangd_header_switch"] == true then
-    map.set('n', '<space>s', "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "swap header", noremap = true })
+       map.set('n', '<space>s', "<cmd>LspClangdSwitchSourceHeader<cr>", { desc = "swap header", noremap = true })
   end
 
   -- telescope
