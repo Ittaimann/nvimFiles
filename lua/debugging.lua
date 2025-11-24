@@ -102,7 +102,7 @@ end
 
 function M.restartSession()
   if M.running == true then
-    M.restart({ true })
+    M.restart()
   end
 end
 
@@ -133,14 +133,6 @@ end
 --- wrappers around dap
 function M.continue()
   dap.continue({ true })
-end
-
-function M.terminate()
-  dap.terminate()
-end
-
-function M.restart()
-  dap.restart()
 end
 
 function M.run()

@@ -13,13 +13,13 @@ M.usingConfigs  = false
 M.configCount   = 0
 M.currentTarget = 0
 M.targets       = {}
-M.launch_args   = {}
+M.launch_args   = ""
 
 require("keymaps").bindProjectConfigKeys(M)
 
 function M.build()
   local build = require("build")
-  if table.getn(M.targets) == 0 then
+  if #(M.targets) == 0 then
     build.setMake(M.make_cmd .. " " .. M.make_args[M.currentConfig])
   else
     build.setMake(M.make_cmd .. " " .. M.make_args[M.currentConfig] .. " " .. M.targets[M.currentTarget])
@@ -37,7 +37,7 @@ end
 
 function M.toggleTarget()
   M.currentTarget = M.currentTarget + 1
-  if M.currentTarget > table.getn(M.targets) then
+  if M.currentTarget > #(M.targets) then
     M.currentTarget = 1
   end
 end
@@ -53,7 +53,7 @@ end
 
 function M.getExecutable()
   local target = ""
-  if table.getn(M.targets) > 0 then
+  if #(M.targets) > 0 then
     target = "/" .. M.targets[M.currentTarget]
   end
   return M.exec_paths[M.currentConfig] .. target
