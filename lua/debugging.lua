@@ -41,6 +41,7 @@ dap.configurations.cpp = {
     runInTerminal = true,
     args = function()
       print(require("proj-config").getLaunchArgs())
+      -- create a bunch of buffers for everything?
       return vim.split(require("proj-config").getLaunchArgs(), " ")
     end,
   },
@@ -238,14 +239,6 @@ end
 
 function M.session()
   dap.session()
-end
-
-function M.terminate()
-  dap.terminate()
-end
-
-function M.restart()
-  dap.restart()
 end
 
 function M.status()
