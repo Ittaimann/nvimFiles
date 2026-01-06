@@ -11,15 +11,11 @@ dap.adapters.lldb = {
 }
 
 
--- maybe move this out to proj config or the local
 dap.configurations.zig = {
   {
     name = 'Launch',
     type = 'lldb',
     request = 'launch',
-    program = function()
-      return require("proj-config").getExecutable()
-    end,
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
     args = {},
@@ -27,23 +23,14 @@ dap.configurations.zig = {
 }
 
 
--- maybe move this out to proj config or the local
 dap.configurations.cpp = {
   {
     name = 'Launch',
     type = 'lldb',
     request = 'launch',
-    program = function()
-      return require("proj-config").getExecutable()
-    end,
     cwd = '${workspaceFolder}',
     stopOnEntry = false,
     runInTerminal = true,
-    args = function()
-      print(require("proj-config").getLaunchArgs())
-      -- create a bunch of buffers for everything?
-      return vim.split(require("proj-config").getLaunchArgs(), " ")
-    end,
   },
 }
 
