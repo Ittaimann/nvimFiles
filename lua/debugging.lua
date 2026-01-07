@@ -97,7 +97,7 @@ end
 function M.endDebugSession()
   if M.running == true then
     M.running = false
-    M.terminate()
+    dap.terminate()
   end
 end
 
