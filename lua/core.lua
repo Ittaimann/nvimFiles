@@ -11,7 +11,6 @@ function M.init()
   vim.pack.add({ 'https://github.com/junegunn/seoul256.vim' })
   vim.pack.add({ 'https://github.com/kyazdani42/nvim-web-devicons' })
   vim.pack.add({ 'https://github.com/nvim-lualine/lualine.nvim' })
-  vim.pack.add({ 'https://github.com/akinsho/bufferline.nvim' })
   vim.pack.add({ 'https://github.com/L3MON4D3/LuaSnip' })
   vim.pack.add({ 'https://github.com/tpope/vim-dispatch' })
 
