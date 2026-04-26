@@ -1,24 +1,21 @@
 local M = {}
 -- todo: replace withnvim plug
+
 function M.init()
+  vim.pack.add({ 'https://github.com/neovim/nvim-lspconfig' })
+  vim.pack.add({ 'https://github.com/nvim-treesitter/nvim-treesitter' })
+  vim.pack.add({ 'https://github.com/mfussenegger/nvim-dap' })
+  vim.pack.add({ 'https://github.com/ziglang/zig.vim' })
+  vim.pack.add({ 'https://github.com/nvim-lua/plenary.nvim' })
+  vim.pack.add({ 'https://github.com/nvim-telescope/telescope.nvim' })
+  vim.pack.add({ 'https://github.com/junegunn/seoul256.vim' })
+  vim.pack.add({ 'https://github.com/kyazdani42/nvim-web-devicons' })
+  vim.pack.add({ 'https://github.com/nvim-lualine/lualine.nvim' })
+  vim.pack.add({ 'https://github.com/akinsho/bufferline.nvim' })
+  vim.pack.add({ 'https://github.com/L3MON4D3/LuaSnip' })
+  vim.pack.add({ 'https://github.com/tpope/vim-dispatch' })
+
   vim.cmd([[
-
-  "------------------------ Packages --------------------------
-  call plug#begin()
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'nvim-treesitter/nvim-treesitter'
-  Plug 'mfussenegger/nvim-dap'
-  Plug 'ziglang/zig.vim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-  Plug 'junegunn/seoul256.vim'
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'nvim-lualine/lualine.nvim'
-  Plug 'akinsho/bufferline.nvim'
-  Plug 'L3MON4D3/LuaSnip'
-  Plug 'tpope/vim-dispatch'
-  call plug#end()
-
   "---------------------- theme ---------------------------------
   set background=dark
   let g:seoul256_background='#00ffffff'
