@@ -34,7 +34,9 @@ end
 function M.bindLSPKeys(opts, args)
   -- Enable completion triggered by <c-x><c-o>
   vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
+  -- need t maybe make a different thing for lsp?
+  map.set('n', '<space>gr', vim.lsp.buf.rename, { desc = "declaration", noremap = true, buffer = args.buf })
+  map.set('n', '<space>qf', vim.lsp.buf.code_action, { desc = "declaration", noremap = true, buffer = args.buf })
   map.set('n', 'grd', vim.lsp.buf.declaration, { desc = "declaration", noremap = true, buffer = args.buf })
   map.set('n', 'grD', vim.lsp.buf.definition, { desc = "definition", noremap = true, buffer = args.buf })
   map.set('n', 'K', vim.lsp.buf.hover, { desc = "hover", noremap = true, buffer = args.buf })
@@ -57,7 +59,7 @@ function M.bindLSPKeys(opts, args)
   end
 
   if opts["clangd_header_switch"] == true then
-       map.set('n', '<space>s', "<cmd>LspClangdSwitchSourceHeader<cr>", { desc = "swap header", noremap = true })
+    map.set('n', '<space>s', "<cmd>LspClangdSwitchSourceHeader<cr>", { desc = "swap header", noremap = true })
   end
 
   -- telescope
@@ -93,7 +95,7 @@ function M.bindDebugKeys(debugging)
   map.set("n", "<F10>", function() debugging.stepOver() end, { desc = "debug step over" })
   map.set("n", "<F11>", function() debugging.stepIn() end, { desc = "debug step in" })
   map.set("n", "<F23>", function() debugging.stepOut() end, { desc = "debug step out" })
-  map.set("n", "<space>lbp", function() debugging.listBreakPoints() end,{ desc = "list breakpoints", noremap = true })
+  map.set("n", "<space>lbp", function() debugging.listBreakPoints() end, { desc = "list breakpoints", noremap = true })
   map.set("n", "<space>dbs", function() debugging.showScopes() end, { desc = "debug show scopes" })
   map.set("n", "<space>dbw", function() debugging.showWatch() end, { desc = "debug show watch" })
   map.set("n", "<space>dbf", function() debugging.showFrame() end, { desc = "debug show frame" })
