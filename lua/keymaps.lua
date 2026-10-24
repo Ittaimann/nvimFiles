@@ -14,13 +14,13 @@ function M.init()
   map.set('n', "FF", "yiw/<C-r>0", {})
 
   -- telescope mappings
-  map.set("n", "<leader>ff", "<cmd>lua require('telescope-config').find_files()<cr>",
+  map.set("n", "<space>ff", "<cmd>lua require('telescope-config').find_files()<cr>",
     { desc = "telescope find files", noremap = true })
-  map.set("n", "<leader>fg", "<cmd>lua require('telescope-config').live_grep()<cr>",
+  map.set("n", "<space>fg", "<cmd>lua require('telescope-config').live_grep()<cr>",
     { desc = "telescope live grep", noremap = true })
-  map.set("n", "<leader>fb", "<cmd>lua require('telescope-config').buffers()<cr>",
+  map.set("n", "<space>fb", "<cmd>lua require('telescope-config').buffers()<cr>",
     { desc = "telescope buffers", noremap = true })
-  map.set("n", "<leader>fh", "<cmd>lua require('telescope-config').help_tags()<cr>",
+  map.set("n", "<space>fh", "<cmd>lua require('telescope-config').help_tags()<cr>",
     { desc = "telescope help tags", noremap = true })
   map.set("n", "<C-p>", "<cmd>lua require('telescope-config').builtin()<cr>",
     { desc = "telescope", noremap = true })
@@ -61,7 +61,7 @@ function M.bindLSPKeys(opts, args)
   end
 
   -- telescope
-  map.set("n", "<leader>ds", "<cmd>lua require('telescope-config').lsp_document_symbols()<cr>",
+  map.set("n", "<space>ds", "<cmd>lua require('telescope-config').lsp_document_symbols()<cr>",
     { desc = "symbols in document", noremap = true, buffer = args.buf })
 
   -- lsp based diagnostics
@@ -90,17 +90,16 @@ function M.bindDebugKeys(debugging)
   map.set("n", "<F17>", function() debugging.endDebugSession() end, { desc = "debug stop" })
   map.set("n", "<F41>", function() debugging.restartSession() end, { desc = "debug restart" })
   map.set("n", "<F9>", function() debugging.placeBreakPoint() end, { desc = "toggle breakpoint" })
-  map.set("n", "<leader>lbp", function() debugging.listBreakPoints() end,
-    { desc = "list breakpoints", noremap = true })
   map.set("n", "<F10>", function() debugging.stepOver() end, { desc = "debug step over" })
   map.set("n", "<F11>", function() debugging.stepIn() end, { desc = "debug step in" })
   map.set("n", "<F23>", function() debugging.stepOut() end, { desc = "debug step out" })
-  map.set("n", "<leader>dbs", function() debugging.showScopes() end, { desc = "debug show scopes" })
-  map.set("n", "<leader>dbw", function() debugging.showWatch() end, { desc = "debug show watch" })
-  map.set("n", "<leader>dbf", function() debugging.showFrame() end, { desc = "debug show frame" })
-  map.set("n", "<leader>dbr", function() debugging.openRepl() end, { desc = "debug show repl" })
-  map.set("n", "<leader>dbh", function() debugging.openHover() end, { desc = "debug show hover" })
-  map.set("n", "<leader>dbp", function() debugging.openPreview() end, { desc = "debug show preivew" })
+  map.set("n", "<space>lbp", function() debugging.listBreakPoints() end,{ desc = "list breakpoints", noremap = true })
+  map.set("n", "<space>dbs", function() debugging.showScopes() end, { desc = "debug show scopes" })
+  map.set("n", "<space>dbw", function() debugging.showWatch() end, { desc = "debug show watch" })
+  map.set("n", "<space>dbf", function() debugging.showFrame() end, { desc = "debug show frame" })
+  map.set("n", "<space>dbr", function() debugging.openRepl() end, { desc = "debug show repl" })
+  map.set("n", "<space>dbh", function() debugging.openHover() end, { desc = "debug show hover" })
+  map.set("n", "<space>dbp", function() debugging.openPreview() end, { desc = "debug show preivew" })
 end
 
 return M
